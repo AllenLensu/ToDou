@@ -22,7 +22,7 @@
 
 ---
 
-<video src="assets/promo/ToDou.mp4" poster="assets/promo/overview/cover.jpg" controls width="100%"></video>
+<video src="https://download.poindre.uk/ToDou.mp4" poster="assets/promo/overview/cover.jpg" controls width="100%"></video>
 
 <p align="center">
   <a href="assets/promo/ToDou.mp4">《周六去拍日出》</a> ·
