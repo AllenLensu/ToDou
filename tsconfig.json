@@ -1,0 +1,8 @@
+{
+  // 根项目只组织构建引用，不直接检查源码；浏览器应用与 Node 配置分别使用各自的类型环境。
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}

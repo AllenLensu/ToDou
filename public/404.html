@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="/favicon.svg">
+  <title>找不到这个页面 · ToDou</title>
+  <style>
+    @font-face { font-family: ToDou; src: url('/fonts/LXGWNeoXiHeiScreenFull.ttf') format('truetype'); font-display: swap; }
+    body { margin: 0; background: #f7f6f1; color: #181818; font-family: ToDou, sans-serif; }
+    main { margin: 18vh auto; max-width: 32rem; padding: 0 24px; }
+    small { font: 0.875rem monospace; }
+    h1 { margin-block: 16px 28px; font-size: clamp(2rem, 5vw, 3rem); font-weight: 400; }
+    a { display: inline-flex; align-items: center; min-height: 44px; color: inherit; text-underline-offset: 4px; -webkit-tap-highlight-color: transparent; }
+    a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+    a:active { text-decoration-thickness: 2px; }
+    @media (prefers-color-scheme: dark) { body { background: #080808; color: #eee; } }
+  </style>
+</head>
+<body>
+  <main>
+    <small>TODOU / 404</small>
+    <h1>找不到这个页面</h1>
+    <a href="/">返回任务清单</a>
+  </main>
+  <script>
+    function pageLocale() {
+      try {
+        const saved = localStorage.getItem('todou.ui.locale')
+        if (saved === 'en' || saved === 'zh-CN') return saved
+      } catch { /* Use the browser language when storage is unavailable. */ }
+      const languages = navigator.languages?.length ? navigator.languages : [navigator.language ?? '']
+      for (const tag of languages) {
+        const language = tag.split('-')[0].toLowerCase()
+        if (language === 'en') return 'en'
+        if (language === 'zh') return 'zh-CN'
+      }
+      return 'zh-CN'
+    }
+    if (pageLocale() === 'en') {
+      document.documentElement.lang = 'en'
+      document.title = 'Page not found · ToDou'
+      document.querySelector('h1').textContent = 'Page not found'
+      document.querySelector('main a').textContent = 'Back to tasks'
+    }
+  </script>
+</body>
+</html>

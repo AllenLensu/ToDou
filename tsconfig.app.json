@@ -1,0 +1,18 @@
+{
+  // 沿用 Vue 的 DOM 类型与只检查不输出设置；实际应用产物由 Vite 构建。
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "types": ["vite/client"],
+    "allowArbitraryExtensions": true,
+
+    /* 静态检查 */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    // 限制为可直接擦除的 TypeScript 语法，避免依赖额外的运行时代码转换。
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  // 应用检查入口包含 Vue 单文件组件；tests 与构建脚本不在此入口范围内。
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"]
+}

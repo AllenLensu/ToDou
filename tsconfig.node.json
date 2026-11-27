@@ -1,0 +1,25 @@
+{
+  // Vite 配置运行于 Node；不引入 DOM 全局类型，也不沿用应用侧的浏览器模块解析设置。
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
+    "target": "es2023",
+    "lib": ["ES2023"],
+    "types": ["node"],
+    "skipLibCheck": true,
+
+    // 按 NodeNext 核对模块解析与导入语法；此项目仅检查配置，不生成 JavaScript。
+    "module": "nodenext",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+
+    /* 静态检查 */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  // 这里只以网页 Vite 配置为检查入口。
+  "include": ["vite.config.ts"]
+}

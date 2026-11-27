@@ -1,0 +1,10 @@
+/* TaskRow 在运行时提供层级深度并限制最多四级；未提供变量时按零级缩进。
+ * 选中、完成和回收站状态的外观由模板维护，此处保留缩进与颜色过渡。
+ */
+.task-row {
+  padding-left: calc(10px + var(--depth, 0) * 20px);
+  transition: background-color var(--motion-fast) var(--ease-out), border-color var(--motion-fast) var(--ease-out), color var(--motion-fast) var(--ease-out);
+}
+
+/* 对比度审计直接读取下方显式 opacity；即使当前为完全不透明，也不能省略为默认值。 */
+.checklist-row { opacity: 1; }

@@ -1,0 +1,73 @@
+/* 普通声明按 theme → legacy → utilities 层叠；项目样式在 legacy 层内保留导入顺序。
+ * 不导入 Preflight，继续使用项目 reset；未分层的 scoped 普通声明优先于分层工具类，
+ * 组件迁移时需同步移除重叠声明。
+ */
+@layer theme, legacy, utilities;
+@import 'tailwindcss/theme.css' layer(theme) prefix(tw);
+@import './styles/foundation/fonts.css' layer(legacy);
+@import './styles/foundation/tokens.css' layer(legacy);
+@import './styles/foundation/reset.css' layer(legacy);
+@import './styles/layout/shell.css' layer(legacy);
+@import './styles/layout/nav.css' layer(legacy);
+@import './styles/primitives/buttons.css' layer(legacy);
+@import './styles/primitives/forms.css' layer(legacy);
+@import './styles/primitives/picker.css' layer(legacy);
+@import './styles/features/tasks.css' layer(legacy);
+@import './styles/features/panels.css' layer(legacy);
+@import './styles/motion.css' layer(legacy);
+@import 'tailwindcss/utilities.css' layer(utilities) prefix(tw) source(none);
+
+/* 仅扫描当前 src 目录，排除历史验收页面及脚本。 */
+@source './';
+
+/* 自定义断点沿用原媒体查询包含端点的像素边界，与 Tailwind 默认上界语义不同。
+ * 清除默认断点，避免迁移时误换成不同边界。
+ */
+@theme {
+  --breakpoint-*: initial;
+}
+@custom-variant le-500 (@media (max-width: 500px));
+@custom-variant le-600 (@media (max-width: 600px));
+@custom-variant le-820 (@media (max-width: 820px));
+@custom-variant ge-821 (@media (min-width: 821px));
+@custom-variant le-1040 (@media (max-width: 1040px));
+@custom-variant ge-1041 (@media (min-width: 1041px));
+
+/* 内联映射直接引用项目主题变量，显式主题与系统主题仍由 tokens.css 决定。
+ * 字号映射不附带行高，保留各处原值；无条件悬停须沿用选择器变体，
+ * 不改成受设备悬停能力媒体查询限制的默认变体。
+ */
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-line: var(--line);
+  --color-line-visible: var(--line-visible);
+  --color-control-border: var(--control-border);
+  --color-text: var(--text);
+  --color-text-display: var(--text-display);
+  --color-muted: var(--muted);
+  --color-dim: var(--dim);
+  --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
+  --color-accent-subtle: var(--accent-subtle);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-interactive: var(--interactive);
+  --font-cjk: var(--font-cjk);
+  --font-ui: var(--font-ui);
+  --font-data: var(--font-data);
+  --font-display: var(--font-display);
+  --text-display: var(--type-display);
+  --text-subheading: var(--type-subheading);
+  --text-body: var(--type-body);
+  --text-label: var(--type-label);
+  --spacing-2xs: var(--space-2xs);
+  --spacing-xs: var(--space-xs);
+  --spacing-sm: var(--space-sm);
+  --spacing-md: var(--space-md);
+  --spacing-lg: var(--space-lg);
+  --spacing-xl: var(--space-xl);
+  --spacing-2xl: var(--space-2xl);
+  --spacing-section: var(--space-section);
+}

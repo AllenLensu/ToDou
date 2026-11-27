@@ -1,0 +1,90 @@
+/* 输入外壳用两条伪元素信号线响应内部焦点，错误态只换信号色；信号线不接收指针，避免遮挡输入控件。 */
+.nothing-input-shell-motion::before,
+.nothing-input-shell-motion::after {
+  position: absolute;
+  z-index: 2;
+  content: '';
+  pointer-events: none;
+  opacity: 0;
+  background: var(--text-display);
+  transition: opacity var(--motion-fast) var(--ease-out), transform var(--motion-base) var(--ease-out);
+}
+
+.nothing-input-shell-motion::before {
+  inset: 8px auto 8px -5px;
+  width: 2px;
+  transform: scaleY(.3);
+  transform-origin: center;
+}
+
+.nothing-input-shell-motion::after {
+  right: 13px;
+  bottom: -1px;
+  left: 13px;
+  height: 2px;
+  transform: scaleX(.08);
+  transform-origin: left;
+}
+
+.nothing-input-shell-singleline::after { bottom: -5.667px; }
+
+.nothing-input-shell-motion:focus-within::before,
+.nothing-input-shell-motion:focus-within::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.nothing-input-invalid .nothing-input-shell-motion::before,
+.nothing-input-invalid .nothing-input-shell-motion::after { background: var(--accent); }
+/* 隐藏 WebKit 原生展开标记，改用随 details 开合切换的加减号，避免同一摘要出现两套标记。 */
+.advanced-summary::-webkit-details-marker { display: none; }
+
+.advanced-summary::before { content: '+'; display: inline-grid; place-items: center; width: 20px; height: 20px; border: 1px solid var(--control-border); border-radius: 50%; color: var(--muted); line-height: 1; transition: border-color var(--motion-fast) var(--ease-out), color var(--motion-fast) var(--ease-out); }
+
+.advanced-fields[open] > .advanced-summary::before { content: '−'; border-color: var(--text); color: var(--text-display); }
+
+:root {
+  --settings-marker-size: 20px;
+  --settings-marker-gap: 12px;
+}
+
+.disclosure-summary,
+.settings-icon-label {
+  display: flex;
+  align-items: center;
+  gap: var(--settings-marker-gap);
+}
+
+.disclosure-summary {
+  min-height: 44px;
+  padding-block: 8px;
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+}
+.disclosure-summary::-webkit-details-marker { display: none; }
+.disclosure-summary::before {
+  content: '+';
+  display: grid;
+  box-sizing: border-box;
+  flex: 0 0 var(--settings-marker-size);
+  height: var(--settings-marker-size);
+  place-items: center;
+  border: 1px solid var(--control-border);
+  border-radius: 50%;
+  color: var(--muted);
+  font: 400 var(--type-label)/1 var(--font-data);
+}
+details[open] > .disclosure-summary::before { content: '−'; color: var(--text-display); }
+.disclosure-summary > span:last-child { margin-inline-start: auto; }
+
+.settings-icon-label > svg {
+  flex: 0 0 var(--settings-marker-size);
+  color: var(--muted);
+}
+.settings-icon-note { margin-inline-start: calc(var(--settings-marker-size) + var(--settings-marker-gap)); }
+
+.nothing-input-select-trigger:focus-visible + [role='listbox'] .is-active {
+  outline: 2px solid var(--interactive);
+  outline-offset: -2px;
+}

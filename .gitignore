@@ -1,0 +1,83 @@
+# OS and editor noise
+Thumbs.db
+Desktop.ini
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.thinkrail/
+.handoff/
+
+# Local browser probes and temporary profiles
+/.tmp-edge-profile/
+/.tmp-opfs-probe/
+/test-results/
+
+# Local test suite
+/tests/
+
+# Secrets and local environment overrides
+.env
+.env.*
+!.env.example
+*.local.json
+*.local.yaml
+*.local.yml
+
+# JavaScript dependencies and logs
+node_modules/
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Packaged release artifacts
+/releases/
+
+# Keep internal docs and release drafts local. List public release notes here.
+/docs/*
+!/docs/releases/
+/docs/releases/*
+!/docs/releases/README.md
+!/docs/releases/v0.1-beta.md
+!/docs/releases/v0.2-beta.md
+!/docs/releases/v0.3-beta.md
+!/docs/releases/v0.4-beta.md
+!/docs/releases/v1794916800.md
+!/docs/releases/v1795006500.md
+!/docs/releases/v1.2.md
+!/docs/releases/v1.5.md
+!/docs/releases/v1.7.md
+!/docs/releases/v1.7.1.md
+!/docs/releases/v1.7.2.md
+!/docs/releases/v1.7.3.md
+!/docs/releases/v1.7.3.1.md
+!/docs/releases/v1.7.5.md
+
+# Build and tool caches
+.cache/
+**/.cache/
+cache/
+**/cache/
+.vite/
+**/.vite/
+coverage/
+dist/
+dist-ssr/
+AGENTS.md
+
+# Local tool and package-manager configuration
+.npmrc
+.yarnrc
+.yarnrc.yml
+*.local.*
+*.local
+

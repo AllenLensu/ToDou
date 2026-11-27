@@ -1,0 +1,48 @@
+{
+  "name": "ToDou 本地任务台",
+  "short_name": "ToDou",
+  "id": "/",
+  "lang": "zh-CN",
+  "dir": "ltr",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "description": "个人本地任务台",
+  "launch_handler": { "client_mode": "focus-existing" },
+  "shortcuts": [
+    { "name": "新建任务", "url": "/#new-task" },
+    { "name": "今天的任务", "url": "/#today" }
+  ],
+  "screenshots": [
+    { "src": "/screenshots/workspace.png", "sizes": "1527x972", "type": "image/png", "form_factor": "wide", "label": "桌面的任务清单与编辑器" },
+    { "src": "/screenshots/today.png", "sizes": "390x844", "type": "image/png", "form_factor": "narrow", "label": "手机上的今日任务" }
+  ]
+}

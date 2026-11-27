@@ -1,0 +1,7 @@
+.visually-hidden,
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+/* 上方两种隐藏方式只裁切视觉内容，仍保留辅助技术可读性，不可替换为完全隐藏。 */
+/* 保留在既有样式层，使后加载的 Vue 列表过渡规则能覆盖此过渡。 */
+.history-row { transition: border-color var(--motion-fast) var(--ease-out), color var(--motion-fast) var(--ease-out); }
+.history-toggle::before { content: '+'; margin-right: var(--space-xs); color: var(--muted); }
+.history-panel[open] .history-toggle::before { content: '−'; }

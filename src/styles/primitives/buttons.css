@@ -1,0 +1,106 @@
+/* 按钮本体提供点击区域，状态圆点另由伪元素绘制：完成时填充，暂停时改为虚线。
+ * 完成圆点的淡入由 motion.css 负责，与这里的边框／背景过渡配合，不能只迁移按钮本体。 */
+.status-dot:active::before { border-color: var(--text-display); }
+.status-dot::before { content: ''; position: absolute; inset: 15px; border: 1px solid var(--muted); border-radius: 50%; transition: border-color var(--motion-fast) var(--ease-out), background-color var(--motion-base) var(--ease-out); }
+.status-dot.status-completed::before { border-color: var(--success); background: var(--success); }
+.status-dot.status-paused::before { border-style: dashed; }
+.status-dot.status-in_progress::after,
+.status-dot.status-waiting::after,
+.status-dot.status-cancelled::after { content: ''; position: absolute; background: var(--muted); }
+.status-dot.status-in_progress::after { inset: 15px; border-radius: 50%; clip-path: inset(0 50% 0 0); }
+.status-dot.status-waiting::after { inset: 20px; border-radius: 50%; }
+.status-dot.status-cancelled::after { inset: 21px 15px auto; height: 1px; transform: rotate(-45deg); }
+
+.action-button {
+  appearance: none;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid var(--control-border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  font: 400 var(--type-label)/1.4 var(--font-data);
+  letter-spacing: .04em;
+  overflow-wrap: anywhere;
+}
+.action-button:is([aria-pressed='true'], [aria-expanded='true'], .is-primary) {
+  border-color: var(--text-display);
+  background: var(--text-display);
+  color: var(--bg);
+}
+.action-button.is-quiet {
+  padding-inline: 8px;
+  border-color: transparent;
+  color: var(--muted);
+  background: transparent;
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+.action-button.is-danger { border-color: var(--accent-text); color: var(--accent-text); }
+@media (hover: hover) {
+  .action-button:enabled:hover { border-color: currentColor; }
+}
+.action-button:enabled:active { border-color: currentColor; background: var(--surface-raised); }
+.action-button:is([aria-pressed='true'], [aria-expanded='true'], .is-primary):enabled:active {
+  background: var(--text);
+  color: var(--bg);
+}
+.action-button:disabled { opacity: .5; cursor: default; }
+
+/* 共享胶囊按钮基础类：统一主按钮、次级描边与危险语义，避免在模板中重复粘贴长工具类串。 */
+.button {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2xs);
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-family: var(--font-data);
+  font-size: var(--type-label);
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    opacity var(--motion-fast) var(--ease-out),
+    border-color var(--motion-fast) var(--ease-out),
+    color var(--motion-fast) var(--ease-out),
+    background-color var(--motion-fast) var(--ease-out);
+}
+.button:active { opacity: 1; }
+.button:disabled { cursor: wait; opacity: .5; }
+
+.button-primary {
+  border: 0;
+  background: var(--text-display);
+  color: var(--bg);
+}
+@media (hover: hover) {
+  .button-primary:enabled:hover { opacity: .86; }
+}
+.button-primary:enabled:active { background: var(--text); color: var(--bg); opacity: 1; }
+
+.button-quiet {
+  border: 1px solid var(--control-border);
+  background: transparent;
+  color: var(--text);
+}
+@media (hover: hover) {
+  .button-quiet:enabled:hover { opacity: .78; border-color: var(--text); color: var(--text-display); }
+}
+.button-quiet:enabled:active { border-color: var(--text-display); color: var(--text-display); opacity: 1; }
+
+.button-danger {
+  border: 1px solid var(--accent-text);
+  background: transparent;
+  color: var(--accent-text);
+}
+@media (hover: hover) {
+  .button-danger:enabled:hover { background: var(--accent-subtle); border-color: var(--accent-text); color: var(--accent-text); }
+}
+.button-danger:enabled:active { background: var(--accent-subtle); opacity: 1; }

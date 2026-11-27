@@ -1,0 +1,128 @@
+/* 保留日期伪元素信号及运行时几何：桌面固定面板由组件 placePanel 按触发器位置写入视口坐标和可用高度。
+ * 时间列内边距取可视高度减 44px 行高的一半，与组件的居中滚动计算配合，使首末项也能居中。
+ * 时间列仅隐藏原生滚动条，不禁用滚动；滚动本身不提交值，选值仍由组件的点击／键盘事件负责。 */
+.nothing-input-shell-picker:has(.nothing-picker.is-open) { z-index: 20; }
+.nothing-picker-panel.is-align-end { right: 0; left: auto; }
+.nothing-picker-panel.is-above { top: auto; bottom: calc(100% + 8px); }
+.nothing-picker-nav-button::before {
+  position: absolute;
+  inset: 0;
+  width: 7px;
+  height: 7px;
+  margin: auto;
+  border-bottom: 1px solid currentColor;
+  border-left: 1px solid currentColor;
+  content: '';
+}
+.nothing-picker-nav-button.is-prev::before { transform: translateX(1px) rotate(45deg); }
+.nothing-picker-nav-button.is-next::before { transform: translateX(-1px) rotate(225deg); }
+.nothing-picker-day::before {
+  position: absolute;
+  z-index: -1;
+  inset: 3px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  content: '';
+  transition: border-color var(--motion-fast) var(--ease-out), background-color var(--motion-fast) var(--ease-out);
+}
+.nothing-picker-day:hover::before { border-color: var(--line-visible); }
+.nothing-picker-day:active::before,
+.nothing-picker-day:focus-visible::before { border-color: var(--text-display); }
+.nothing-picker-day.is-today::after {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  border-radius: 50%;
+  background: var(--accent);
+  content: '';
+}
+.nothing-picker-day.is-selected::before {
+  border-color: var(--text-display);
+  background: var(--text-display);
+  animation: nothing-picker-fill var(--motion-fast) var(--ease-out) both;
+}
+.nothing-picker-day.is-selected.is-today::after { background: var(--bg); }
+.nothing-picker-days.is-from-next { animation: nothing-picker-from-next var(--motion-base) var(--ease-out) both; }
+.nothing-picker-days.is-from-prev { animation: nothing-picker-from-prev var(--motion-base) var(--ease-out) both; }
+.nothing-picker-time-column {
+  --drum-height: 292px;
+  height: var(--drum-height);
+  padding-block: calc((var(--drum-height) - 44px) / 2);
+  scrollbar-width: none;
+}
+.nothing-picker-time-column::-webkit-scrollbar { display: none; }
+.nothing-picker-time:only-child .nothing-picker-time-column { --drum-height: 220px; }
+.nothing-picker-time-item::before {
+  position: absolute;
+  top: 8px;
+  bottom: 8px;
+  left: 0;
+  width: 2px;
+  background: var(--accent);
+  content: '';
+  transform: scaleY(0);
+  transition: transform var(--motion-fast) var(--ease-out);
+}
+.nothing-picker-time-item.is-selected::before { transform: scaleY(1); }
+.nothing-picker-panel { position: fixed; z-index: 30; top: calc(100% + 8px); left: 0; }
+/* Vue 过渡类控制面板沿触发器方向揭幕、关闭时淡出；选中日淡入及跨月方向动画保留独立关键帧。
+ * 减弱动效由 motion.css 统一覆盖，组件同时停用时间列的平滑滚动。 */
+.nothing-picker-panel-enter-active { animation: nothing-picker-shutter var(--motion-base) var(--ease-out) both; }
+.nothing-picker-panel-enter-active.is-above { animation-name: nothing-picker-shutter-up; }
+.nothing-picker-panel-leave-active { transition: opacity var(--motion-fast) var(--ease-out); }
+.nothing-picker-panel-leave-to { opacity: 0; }
+
+@keyframes nothing-picker-shutter {
+  from { opacity: 0; clip-path: inset(0 0 100% 0 round 8px); }
+  60% { opacity: 1; }
+  to { opacity: 1; clip-path: inset(0 0 0 0 round 8px); }
+}
+
+@keyframes nothing-picker-shutter-up {
+  from { opacity: 0; clip-path: inset(100% 0 0 0 round 8px); }
+  60% { opacity: 1; }
+  to { opacity: 1; clip-path: inset(0 0 0 0 round 8px); }
+}
+
+@keyframes nothing-picker-fill {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes nothing-picker-from-next {
+  from { opacity: 0; transform: translateX(12px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes nothing-picker-from-prev {
+  from { opacity: 0; transform: translateX(-12px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* 600px 及以下 placePanel 清空内联几何，交由这里固定到底部，并统一改为向上揭幕。
+ * 同时缩短日历旁的时间列；仅时间模式仍沿用上方独立高度，居中留白随高度变量重算。 */
+@media (max-width: 600px) {
+  .nothing-picker-panel,
+  .nothing-picker-panel.is-above,
+  .nothing-picker-panel.is-align-end {
+    position: fixed; top: auto; right: 0; bottom: 0; left: 0;
+  }
+  .nothing-picker-panel::before {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    width: 32px;
+    height: 2px;
+    margin-left: -16px;
+    border-radius: 999px;
+    background: var(--line-visible);
+    content: '';
+  }
+  .nothing-picker-panel-enter-active,
+  .nothing-picker-panel-enter-active.is-above { animation-name: nothing-picker-shutter-up; }
+  .nothing-picker-day::before { inset: 2px calc(50% - 20px); }
+  .nothing-picker-calendar + .nothing-picker-time .nothing-picker-time-column { --drum-height: 144px; }
+}

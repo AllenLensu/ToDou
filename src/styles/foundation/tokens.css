@@ -1,0 +1,90 @@
+:root {/* 项目主题、字体、间距与动效的基础变量；默认深色，浅色规则只覆盖所需变量。 */
+  --font-cjk: '霞鹜新晰黑-屏幕阅读增强版', '霞鹜新晰黑 屏幕阅读版', '霞鹜新晰黑 屏幕阅读版 补全', 'LXGW Neo XiHei Screen';
+  --font-ui: 'Space Grotesk', var(--font-cjk), system-ui, sans-serif;
+  --font-data: 'Space Mono', var(--font-cjk), ui-monospace, SFMono-Regular, Consolas, monospace;
+  --font-display: 'Doto', 'Space Mono', ui-monospace, SFMono-Regular, Consolas, monospace;
+  color-scheme: dark;
+  font-family: var(--font-ui);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --bg: #000000;
+  --surface: #111111;
+  --surface-raised: #1a1a1a;
+  --line: #222222;
+  --line-visible: #3a3a3a;
+  --control-border: #666666;
+  --text: #e8e8e8;
+  --text-display: #ffffff;
+  --muted: #a4a4a4;
+  --dim: #828282;
+  --accent: #d71921;
+  --accent-text: #f0434a;
+  --accent-subtle: rgba(215, 25, 33, .15);
+  --success: #4a9e5c;
+  --warning: #d4a843;
+  --interactive: #e8e8e8;
+  --type-display: clamp(48px, 7vw, 72px);
+  --type-body: 16px;
+  --type-subheading: 18px;
+  --type-label: 12px;
+  /* 间距以 8px 为基准，区块间距保持在 48–64px。 */
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 32px;
+  --space-xl: 48px;
+  --space-2xl: 64px;
+  --space-section: 56px;
+  /* Nothing 动效使用短促的缓出曲线，不使用弹簧或过冲。 */
+  --motion-fast: 150ms;
+  --motion-base: 220ms;
+  --motion-slow: 320ms;
+  --ease-nothing: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-out: var(--ease-nothing);
+  --ease-standard: var(--ease-nothing);
+}
+
+:root[data-theme='dark'] {/* 显式深色沿用根变量，并阻止下方系统浅色规则匹配。 */
+  color-scheme: dark;
+}
+
+:root[data-theme='light'] {/* 显式浅色不依赖系统偏好。 */
+  color-scheme: light;
+  --bg: #f7f6f1;
+  --surface: #fffefa;
+  --surface-raised: #efeee8;
+  --line: #e3e1da;
+  --line-visible: #b8b6ae;
+  --control-border: #8a8880;
+  --text: #1b1b1a;
+  --text-display: #000000;
+  --muted: #5d5d59;
+  --dim: #6b6a64;
+  --accent-text: #d31820;
+  --accent-subtle: rgba(215, 25, 33, .1);
+  --success: #2f7a3f;
+  --warning: #8a6200;
+  --interactive: #1b1b1a;
+}
+
+@media (prefers-color-scheme: light) {/* 未显式选深色时采用系统浅色；显式浅色也匹配，覆盖值保持一致。 */
+  :root:not([data-theme='dark']) {
+    color-scheme: light;
+    --bg: #f7f6f1;
+    --surface: #fffefa;
+    --surface-raised: #efeee8;
+    --line: #e3e1da;
+    --line-visible: #b8b6ae;
+    --control-border: #8a8880;
+    --text: #1b1b1a;
+    --text-display: #000000;
+    --muted: #5d5d59;
+    --dim: #6b6a64;
+    --accent-text: #d31820;
+    --accent-subtle: rgba(215, 25, 33, .1);
+    --success: #2f7a3f;
+    --warning: #8a6200;
+    --interactive: #1b1b1a;
+  }
+}

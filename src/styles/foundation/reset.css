@@ -1,0 +1,67 @@
+* { box-sizing: border-box; }
+/* 项目最小重置与全局键盘焦点轮廓；入口不引入 Tailwind Preflight。 */
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  /* 横屏时让开刘海和圆角；顶部安全区由 .app-shell 的上留白承担，避免页面总高超出视口。 */
+  padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
+  background: var(--bg);
+  color: var(--text);
+  transition: background-color var(--motion-slow) var(--ease-standard), color var(--motion-slow) var(--ease-standard);
+}
+
+button, input, textarea, select { font: inherit; }
+button { cursor: pointer; }
+input[type='checkbox'], input[type='radio'] { accent-color: var(--text-display); }
+::selection { color: var(--bg); background: var(--text-display); }
+
+/* 操作控件不参与长按选字；正文和可编辑字段保留原生选择与复制。 */
+button,
+summary,
+[role="button"],
+[role="option"],
+[role="menuitem"],
+[role="menuitemcheckbox"],
+[role="menuitemradio"],
+label:has(input[type="checkbox"]),
+label:has(input[type="radio"]) {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--interactive);
+  outline-offset: 3px;
+}
+a[href] { -webkit-tap-highlight-color: transparent; }
+
+/* 滑块静止时透明但保留滚动条尺寸；useAutoHideScrollbars 在滚动时短暂设置 data-scrolling，
+   WebKit 滑块悬停或按下时也显色，轨道保持透明并隐藏箭头。 */
+:root { --scrollbar-width: 6px; }
+::-webkit-scrollbar { width: var(--scrollbar-width); height: var(--scrollbar-width); }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: transparent; border-radius: 999px; }
+[data-scrolling]::-webkit-scrollbar-thumb { background: var(--control-border); }
+::-webkit-scrollbar-thumb:hover { background: var(--dim); }
+::-webkit-scrollbar-thumb:active { background: var(--text); }
+::-webkit-scrollbar-button,
+::-webkit-scrollbar-corner { display: none; background: transparent; }
+
+/* 不支持 WebKit 滚动条伪元素的浏览器使用标准属性；避免在 Chromium 同时设置，
+   以免非 auto 的标准滚动条属性覆盖上面的伪元素样式。 */
+@supports not selector(::-webkit-scrollbar) {
+  * { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+  [data-scrolling] { scrollbar-color: var(--control-border) transparent; }
+}
+
+/* 触屏设备不显示滚动条，也不再为它预留宽度；滚动补偿变量归零后布局与无滚动条时一致。 */
+@media (hover: none) and (pointer: coarse) {
+  :root { --scrollbar-width: 0px; }
+  * { scrollbar-width: none; }
+  ::-webkit-scrollbar { display: none; }
+}
+
+h1, h2, h3, p { margin: 0; }

@@ -1,0 +1,141 @@
+.topbar > div:first-child,
+.topbar-meta,
+.empty-state {
+  animation: motion-fade-in var(--motion-slow) var(--ease-out) both;
+}
+/* 共享入场仅淡入；完成标记也只在原位改变透明度，不缩放或弹跳。 */
+.topbar-meta { animation-delay: 100ms; }
+@media (prefers-reduced-motion: no-preference) {
+  .app-main > :is(.workspace, .settings-view) {
+    animation: motion-fade-in var(--motion-base) var(--ease-out);
+  }
+  /* 任务与回收站共用工作区节点，切换动画名称即可在节点复用时重新淡入。 */
+  .app-main > .workspace-trash { animation-name: motion-fade-in-trash; }
+
+  .task-detail-enter-active { transition: opacity var(--motion-base) var(--ease-out); }
+  .task-detail-leave-active { transition: opacity var(--motion-fast) var(--ease-out); }
+  .task-detail-enter-from,
+  .task-detail-leave-to { opacity: 0; }
+
+  @media (min-width: 821px) {
+    /* 让录入区和列表先让出详情列，再淡入编辑内容。 */
+    .workspace:has(> .task-column.with-capture) > .task-detail-enter-active {
+      transition-duration: var(--motion-fast);
+      transition-delay: var(--motion-base);
+    }
+  }
+}
+.inline-status,
+.reminder-toast { animation: motion-fade-in var(--motion-base) var(--ease-out) both; }
+.checklist-edit-row,
+.history-row {
+  animation-name: motion-fade-in;
+  animation-duration: var(--motion-base);
+  animation-timing-function: var(--ease-out);
+  animation-fill-mode: both;
+}
+.status-dot.status-completed::before { animation: status-fill var(--motion-base) linear both; }
+.advanced-fields[open] > :not(summary) {
+  position: relative;
+  z-index: 0;
+  animation: motion-fade-in var(--motion-base) var(--ease-out) both;
+}
+.advanced-fields[open] > :not(summary):has(.nothing-input-shell-select-open, .nothing-picker.is-open) { z-index: 2; }
+.task-motion-list { position: relative; }
+.task-motion-leaving { pointer-events: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .task-motion-move {
+    /* Sampled from the task row spring (mass 1, stiffness 400, damping 24). */
+    transition: transform 440ms linear(
+      0, .0805 5%, .2641 10%, .4813 15%, .6862 20%, .8535 25%, .9738 30%,
+      1.0487 35%, 1.0856 40%, 1.0947 45%, 1.0861 50%, 1.06 57%, 1.032 64%,
+      1.0079 72%, .995 80%, .991 90%, 1
+    );
+  }
+}
+
+/* 检查项和历史组件的 TransitionGroup 阶段类。 */
+.checklist-edit-row-enter-active,
+.checklist-edit-row-leave-active,
+.history-row-enter-active,
+.history-row-leave-active {
+  transition: opacity var(--motion-base) var(--ease-out);
+}
+
+.checklist-edit-row-enter-from,
+.checklist-edit-row-leave-to,
+.history-row-enter-from,
+.history-row-leave-to {
+  opacity: 0;
+}
+/* 离场行脱离文档流，让其余行重排；Vue 的 move 阶段以 transform 过渡衔接位置。 */
+.checklist-edit-row-leave-active,
+.history-row-leave-active {
+  position: absolute;
+  width: 100%;
+}
+
+.checklist-edit-row-move,
+.history-row-move { transition: transform var(--motion-base) var(--ease-out); }
+
+/* 入场只改变透明度，不上移、不使用弹簧或过冲。 */
+@keyframes motion-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes motion-fade-in-trash {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 完成状态在原位填充标记，不做放大弹出。 */
+@keyframes status-fill {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* 授权返回的等待只让分段依次明暗，不位移、不缩放。减弱动态效果时四段保持同时可见。 */
+.auth-return-loading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+#app > .auth-return-loading { margin: var(--space-2xl) 56px; }
+.auth-return-segments {
+  display: inline-flex;
+  flex: none;
+  gap: 2px;
+}
+.auth-return-segments > span {
+  display: block;
+  width: 8px;
+  height: 8px;
+  background: var(--text);
+  opacity: 0.28;
+  animation: auth-return-segment 640ms linear infinite;
+}
+.auth-return-segments > span:nth-child(2) { animation-delay: 160ms; }
+.auth-return-segments > span:nth-child(3) { animation-delay: 320ms; }
+.auth-return-segments > span:nth-child(4) { animation-delay: 480ms; }
+@keyframes auth-return-segment {
+  0%, 24.99% { opacity: 1; }
+  25%, 100% { opacity: 0.28; }
+}
+@media (max-width: 820px) {
+  #app > .auth-return-loading { margin-inline: 22px; }
+}
+@media (max-width: 500px) {
+  #app > .auth-return-loading { margin-inline: var(--space-sm); }
+}
+/* 减弱动效放在末尾，以重要声明关闭动画、过渡和顺滑滚动，也覆盖伪元素。 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  .auth-return-segments > span { opacity: 1; }
+  .task-detail-leave-active { display: none; }
+}
